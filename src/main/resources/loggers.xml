@@ -16,13 +16,14 @@
         <constructor-arg value="10"/>
     </bean>
 
-    <bean id="event" class="com.course.spring.core.beans.Event" scope="prototype">
+    <bean id="combinesEventLogger" class="com.course.spring.core.loggers.impl.CombinesEventLogger">
         <constructor-arg>
-            <bean class="java.util.Date"/>
-        </constructor-arg>
-        <constructor-arg>
-            <bean class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
+            <list>
+                <ref bean="consoleEventLogger"/>
+                <ref bean="fileEventLogger"/>
+            </list>
         </constructor-arg>
     </bean>
+
 
 </beans>
