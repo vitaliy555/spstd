@@ -9,15 +9,14 @@ import lombok.RequiredArgsConstructor;
 import com.course.spring.core.beans.Event;
 import com.google.common.collect.Lists;
 
+import org.springframework.beans.factory.annotation.Value;
+
 
 public class CacheFileEventLogger extends FileEventLogger {
-    private final int cacheSize;
+    @Value("${cacheSize}")
+    private int cacheSize;
     private List<Event> events= Lists.newArrayList();
 
-    public CacheFileEventLogger(String filePath,int cacheSize) throws IOException {
-        super(filePath);
-        this.cacheSize=cacheSize;
-    }
 
     @Override
     public void logEvent(Event event) {

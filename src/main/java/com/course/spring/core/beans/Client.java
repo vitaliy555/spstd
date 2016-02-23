@@ -1,13 +1,19 @@
 package com.course.spring.core.beans;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Getter@Setter@RequiredArgsConstructor
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Getter
+@Setter
+@Component
 public class Client {
-    private final String id;
-    private final String fullName;
+    @Value("${id}")
+    private String id;
+    @Value("${fullName}")
+    private String fullName;
+    @Value("${greeting}")
     private String greeting;
 }

@@ -2,41 +2,29 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:util="http://www.springframework.org/schema/util"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:c="http://www.springframework.org/schema/c"
        xsi:schemaLocation="
  		http://www.springframework.org/schema/beans
  		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
  		http://www.springframework.org/schema/util
  		http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-    <import resource="loggers.xml"/>
-
-    <bean id="client" class="com.course.spring.core.beans.Client"
-          p:greeting="${greeting}" >
-        <constructor-arg value="${id}"/>
-        <constructor-arg value="${fullName}"/>
-
+    <bean id="app" class="com.course.spring.core.App" autowire="byName">
+        <property name="loggers">
+            <util:map id="loggersMap">
+                <entry key="INFO" value-ref="consoleEventLogger"/>
+                <entry key="ERROR" value-ref="fileEventLogger"/>
+            </util:map>
+        </property>
     </bean>
 
-    <bean id="app" class="com.course.spring.core.App">
-        <constructor-arg ref="client"/>
-        <constructor-arg ref="loggersMap"/>
-        <constructor-arg ref="combinesEventLogger"/>
-    </bean>
 
-    <util:map id="loggersMap">
-        <entry key="INFO" value-ref="consoleEventLogger"/>
-        <entry key="ERROR" value-ref="fileEventLogger"/>
-    </util:map>
+    <util:list id="loggersList">
+        <ref bean="consoleEventLogger"/>
+        <ref bean="fileEventLogger"/>
+    </util:list>
 
-    <bean id="event" class="com.course.spring.core.beans.Event" scope="prototype">
-        <constructor-arg>
-            <bean class="java.util.Date"/>
-        </constructor-arg>
-        <constructor-arg>
-            <bean class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
-        </constructor-arg>
-    </bean>
+
+    <bean id="date" class="java.util.Date" scope="prototype"/>
+    <bean id="dateFormat" class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
 
 </beans>

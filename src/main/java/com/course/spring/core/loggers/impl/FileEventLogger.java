@@ -3,28 +3,34 @@ package com.course.spring.core.loggers.impl;
 import java.io.File;
 import java.io.IOException;
 
+import javax.annotation.PostConstruct;
+
 import lombok.Getter;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import com.course.spring.core.beans.Event;
 import com.course.spring.core.loggers.EventLogger;
 
 @Getter
+@Component("fileEventLogger")
 public class FileEventLogger implements EventLogger {
+    @Value("${filePath}")
+    String filePath;
     private File file;
     private boolean canWrite;
 
-    public FileEventLogger(String filePath) throws IOException {
+
+
+    @PostConstruct
+    private void init() throws IOException {
         file = new File(filePath);
         if (file.exists()) {
             file.delete();
         }
         file.createNewFile();
-
-    }
-
-    private void init() {
         canWrite = file.canWrite();
     }
 
