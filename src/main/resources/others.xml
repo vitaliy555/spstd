@@ -8,7 +8,8 @@
  		http://www.springframework.org/schema/util
  		http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-    <bean id="app" class="com.course.spring.core.App" autowire="byName">
+    <bean id="app" class="com.course.spring.core.App" >
+        <property name="defaultLogger" value="#{(event).isDay()?fileEventLogger:consoleEventLogger}"/>
         <property name="loggers">
             <util:map id="loggersMap">
                 <entry key="INFO" value-ref="consoleEventLogger"/>
@@ -24,7 +25,5 @@
     </util:list>
 
 
-    <bean id="date" class="java.util.Date" scope="prototype"/>
-    <bean id="dateFormat" class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
-
+    <bean id="date" class="org.joda.time.DateTime" scope="prototype"/>
 </beans>
